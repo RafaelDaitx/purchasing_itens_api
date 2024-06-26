@@ -11,7 +11,7 @@ data class Item(
     var id: Long = 0,
 
     @Column(name = "item_name", nullable = false, length = 100)
-    var itenName: String = "",
+    var itemName: String = "",
 
     @Column(name = "marketplace", nullable = false, length = 50)
     var marketplace: String = "",

@@ -8,8 +8,8 @@ class ItemMapper {
     fun mapEntityToVO(item: Item): ItemsVO{
         val vo = ItemsVO()
 
-        vo.id = item.id
-        vo.itenName = item.itenName
+        vo.key = item.id
+        vo.itemName = item.itemName
         vo.marketplace = item.marketplace
         vo.link = item.marketplace
         vo.price = item.price
@@ -20,8 +20,8 @@ class ItemMapper {
     fun mapVOToEntity(item: ItemsVO): Item{
         val entity = Item()
 
-        entity.id = item.id
-        entity.itenName = item.itenName
+        entity.id = item.key
+        entity.itemName = item.itemName
         entity.marketplace = item.marketplace
         entity.link = item.marketplace
         entity.price = item.price

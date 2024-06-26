@@ -31,4 +31,12 @@ class ItemService {
         val item = repository.findById(id).orElseThrow{ ResourceNotFoundException("No records found for this ID!") }
         return DozerMapper.parseObject(item, ItemsVO::class.java)
     }
+
+    fun create(item: ItemsVO): ItemsVO{
+        logger.info("Creating a new item!")
+
+        var entity: Item = DozerMapper.parseObject(item, Item::class.java)
+
+        return DozerMapper.parseObject(repository.save(entity), ItemsVO::class.java)
+    }
 }
