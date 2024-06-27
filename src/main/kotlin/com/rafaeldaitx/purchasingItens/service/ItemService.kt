@@ -37,6 +37,27 @@ class ItemService {
 
         var entity: Item = DozerMapper.parseObject(item, Item::class.java)
 
-        return DozerMapper.parseObject(repository.save(entity), ItemsVO::class.java)
+        return DozerMapper.parseObject(repository.save(entity),ItemsVO::class.java)
+    }
+
+    fun delete(id: Long){
+        logger.info("Deleting item with ID ${id}")
+
+        val entity = repository.findById(id).orElseThrow { ResourceNotFoundException("No records found for this ID!") }
+
+        repository.delete(entity)
+    }
+
+    fun update(item: Item): Item{
+        logger.info("Updating item with ID ${item.id}")
+        val entity = repository.findById(item.id).orElseThrow() {ResourceNotFoundException("No records found" +
+                "for this ID!")}
+
+        entity.itemName = item.itemName
+        entity.link = item.link
+        entity.marketplace = item.marketplace
+        entity.price = item.price
+
+        return repository.save(entity)
     }
 }
