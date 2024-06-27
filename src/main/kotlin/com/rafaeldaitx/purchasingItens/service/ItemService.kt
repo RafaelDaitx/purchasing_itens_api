@@ -4,8 +4,14 @@ import com.rafaeldaitx.purchasingItens.data.vo.v1.ItemsVO
 import com.rafaeldaitx.purchasingItens.exceptions.ResourceNotFoundException
 import com.rafaeldaitx.purchasingItens.model.DozerMapper
 import com.rafaeldaitx.purchasingItens.model.Item
+import com.rafaeldaitx.purchasingItens.model.PagedResponse
 import com.rafaeldaitx.purchasingItens.repository.ItemRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PagedResourcesAssembler
+import org.springframework.hateoas.EntityModel
+import org.springframework.hateoas.PagedModel
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
 
@@ -14,6 +20,9 @@ class ItemService {
 
     @Autowired
     private lateinit var repository: ItemRepository
+
+    @Autowired
+    private lateinit var assembler: PagedResourcesAssembler<ItemsVO>
 
     private val logger = Logger.getLogger(ItemService::class.java.name)
 
@@ -59,5 +68,21 @@ class ItemService {
         entity.price = item.price
 
         return repository.save(entity)
+    }
+
+    fun findByName(itemName: String, pageable: Pageable): PagedResponse<ItemsVO> {
+         logger.info("Finding an item by name")
+
+        val items: Page<Item> = repository.FindItemByName(itemName, pageable)
+        val itemsVOList: List<ItemsVO> = items.map { i -> DozerMapper.parseObject(i, ItemsVO::class.java) }.toList()
+
+        return PagedResponse(
+            content = itemsVOList,
+            page = items.number,
+            size = items.size,
+            totalElements = items.totalElements,
+            totalPages = items.totalPages
+        )
+
     }
 }
