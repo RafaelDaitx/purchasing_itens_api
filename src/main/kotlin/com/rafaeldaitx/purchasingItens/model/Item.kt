@@ -1,5 +1,6 @@
 package com.rafaeldaitx.purchasingItens.model
 
+import com.rafaeldaitx.purchasingItens.model.categories.Categories
 import jakarta.persistence.*
 
 @Entity
@@ -20,5 +21,9 @@ data class Item(
     var link: String = "",
 
     @Column(nullable = false)
-    var price: Double = 0.0
+    var price: Double = 0.0,
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    var category: Categories? = null
 )

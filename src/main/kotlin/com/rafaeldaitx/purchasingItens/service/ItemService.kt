@@ -5,6 +5,7 @@ import com.rafaeldaitx.purchasingItens.exceptions.ResourceNotFoundException
 import com.rafaeldaitx.purchasingItens.model.DozerMapper
 import com.rafaeldaitx.purchasingItens.model.Item
 import com.rafaeldaitx.purchasingItens.model.PagedResponse
+import com.rafaeldaitx.purchasingItens.repository.CategoriesRepository
 import com.rafaeldaitx.purchasingItens.repository.ItemRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -43,6 +44,9 @@ class ItemService {
 
     fun create(item: ItemsVO): ItemsVO{
         logger.info("Creating a new item!")
+        var categoryExists = repository.existsByCategoryId(item.categoryId)
+
+        if(!categoryExists) throw ResourceNotFoundException("No category found for this ID!")
 
         var entity: Item = DozerMapper.parseObject(item, Item::class.java)
 

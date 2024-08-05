@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.github.dozermapper.core.Mapping
 
 
-@JsonPropertyOrder("id", "itemName", "marketplace", "link", "price")
+@JsonPropertyOrder("id", "itemName","link", "marketplace",  "price", "categoryId")
 data class ItemsVO (
 
     @Mapping("id")
@@ -13,5 +13,6 @@ data class ItemsVO (
     var itemName: String = "",
     var marketplace: String = "",
     var link: String = "",
-    var price: Double = 0.0
+    var price: Double = 0.0,
+    var categoryId: Long = 0
 )

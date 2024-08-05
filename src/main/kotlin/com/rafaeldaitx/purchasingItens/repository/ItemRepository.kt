@@ -13,4 +13,7 @@ interface ItemRepository: JpaRepository<Item, Long?> {
 
     @Query("SELECT i FROM Item i WHERE LOWER(i.itemName) LIKE LOWER(CONCAT('%', :itemName, '%'))")
     fun FindItemByName(@Param("itemName") itemName: String, pageable: Pageable): Page<Item>
+
+    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Categories c WHERE c.id = :categoryId")
+    fun existsByCategoryId(@Param("categoryId") categoryId: Long?): Boolean
 }
